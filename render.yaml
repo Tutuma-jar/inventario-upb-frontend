@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: inventario-upb-frontend
+    runtime: static
+    buildCommand: npm run build
+    staticPublishPath: dist
+    autoDeploy: false

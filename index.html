@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#2563eb" />
+    <title>Inventario | UPB</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="#" aria-label="Inventario UPB, inicio">
+          <span class="brand-mark" aria-hidden="true">U</span>
+          <span>Inventario<span class="brand-accent">.</span></span>
+        </a>
+        <button id="settingsButton" class="icon-button" type="button" aria-label="Configurar conexión" title="Configurar conexión">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15.5A3.5 3.5 0 1 0 12 8a3.5 3.5 0 0 0 0 7.5Z"/><path d="M19.4 15a1.75 1.75 0 0 0 .35 1.93l.06.06-2.16 2.16-.06-.06A1.75 1.75 0 0 0 15.66 18a1.76 1.76 0 0 0-1.17 1.66v.09h-3.05v-.09A1.76 1.76 0 0 0 10.27 18a1.75 1.75 0 0 0-1.93 1.09l-.06.06-2.16-2.16.06-.06A1.75 1.75 0 0 0 6.53 15a1.76 1.76 0 0 0-1.66-1.17h-.09v-3.05h.09a1.76 1.76 0 0 0 1.66-1.17 1.75 1.75 0 0 0-.35-1.93l-.06-.06 2.16-2.16.06.06a1.75 1.75 0 0 0 1.93.35 1.76 1.76 0 0 0 1.17-1.66v-.09h3.05v.09a1.76 1.76 0 0 0 1.17 1.66 1.75 1.75 0 0 0 1.93-.35l.06-.06 2.16 2.16-.06.06a1.75 1.75 0 0 0-.35 1.93 1.76 1.76 0 0 0 1.66 1.17h.09v3.05h-.09A1.76 1.76 0 0 0 19.4 15Z"/></svg>
+        </button>
+      </header>
+
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Gestión de productos</p>
+          <h1>Tu inventario, <span>en orden.</span></h1>
+          <p class="hero-copy">Controla existencias, precios y valor del inventario desde un solo lugar.</p>
+        </div>
+        <button id="newProductButton" class="primary-button" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+          Nuevo producto
+        </button>
+      </section>
+
+      <section class="stats-grid" aria-label="Resumen del inventario">
+        <article class="stat-card"><span class="stat-icon blue">⌘</span><div><p>Productos</p><strong id="productCount">—</strong><small>registrados</small></div></article>
+        <article class="stat-card"><span class="stat-icon green">▦</span><div><p>Unidades</p><strong id="stockCount">—</strong><small>en existencia</small></div></article>
+        <article class="stat-card"><span class="stat-icon purple">$</span><div><p>Valor total</p><strong id="totalValue">—</strong><small>del inventario</small></div></article>
+      </section>
+
+      <section class="inventory-panel">
+        <div class="panel-heading">
+          <div><h2>Productos</h2><p id="resultsLabel">Cargando inventario…</p></div>
+          <label class="search-field"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6"/><path d="m16 16 4 4"/></svg><input id="searchInput" type="search" placeholder="Buscar producto" autocomplete="off" /></label>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Producto</th><th>Precio</th><th>Stock</th><th>Registrado</th><th><span class="sr-only">Acciones</span></th></tr></thead>
+            <tbody id="productsBody"></tbody>
+          </table>
+          <div id="emptyState" class="empty-state" hidden>
+            <div class="empty-icon">▦</div><h3>No hay productos todavía</h3><p>Crea tu primer producto para comenzar a organizar el inventario.</p><button class="secondary-button" type="button" data-create-product>Agregar producto</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <dialog id="productDialog" class="dialog">
+      <form id="productForm" novalidate>
+        <div class="dialog-heading"><div><p class="eyebrow" id="formEyebrow">Nuevo registro</p><h2 id="formTitle">Agregar producto</h2></div><button class="close-button" type="button" data-close-dialog aria-label="Cerrar">×</button></div>
+        <input id="productId" type="hidden" />
+        <label>Nombre del producto<input id="nameInput" name="nombre" type="text" maxlength="100" placeholder="Ej. Cuaderno profesional" required /></label>
+        <div class="form-grid"><label>Precio<input id="priceInput" name="precio" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0.00" required /></label><label>Stock<input id="stockInput" name="stock" type="number" min="0" step="1" inputmode="numeric" placeholder="0" required /></label></div>
+        <p id="formError" class="form-error" role="alert" hidden></p>
+        <div class="dialog-actions"><button class="text-button" type="button" data-close-dialog>Cancelar</button><button id="saveButton" class="primary-button" type="submit">Guardar producto</button></div>
+      </form>
+    </dialog>
+
+    <dialog id="settingsDialog" class="dialog small-dialog">
+      <form id="settingsForm">
+        <div class="dialog-heading"><div><p class="eyebrow">Conexión</p><h2>Configurar API</h2></div><button class="close-button" type="button" data-close-settings aria-label="Cerrar">×</button></div>
+        <label>URL de la API<input id="apiUrlInput" type="url" placeholder="http://localhost:3000/api/productos" required /></label>
+        <p class="help-text">La URL debe terminar en <code>/api/productos</code>.</p>
+        <p id="settingsError" class="form-error" role="alert" hidden></p>
+        <div class="dialog-actions"><button class="text-button" type="button" data-close-settings>Cancelar</button><button class="primary-button" type="submit">Guardar y recargar</button></div>
+      </form>
+    </dialog>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script src="app.js"></script>
+  </body>
+</html>
